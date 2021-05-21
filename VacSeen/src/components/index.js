@@ -1,5 +1,4 @@
 export { default as Navigation } from "./Navigation";
-export { default as Footer } from "./Footer";
 export { default as Main } from "./Main";
 export { default as Admin } from "./Admin";
 export { default as Hospital } from "./Hospital"
