@@ -5,4 +5,3 @@ export { default as Admin } from "./Admin";
 export { default as Hospital } from "./Hospital"
 export { default as Manufacturer } from "./Manufacturer"
 export { default as Public } from "./Public"
-export { default as Dashboard } from "./Dashboard"

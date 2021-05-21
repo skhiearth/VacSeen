@@ -26,13 +26,30 @@ html, body, #app, #app>div {
     font-weight: 600;
 }
 
+.connectedToLeft {
+    color: black;
+    font-family: 'Raleway', sans-serif;
+    text-align: left;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.connectedToRight {
+    color: black;
+    font-family: 'Raleway', sans-serif;
+    text-align: right;
+    padding-left: 10px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
 p {
     font-family: 'Raleway', sans-serif;
     font-weight: 500;
 }
 
 .networkSelector {
-    margin-left: 20px;
+    padding-left: 20px;
     position: absolute;
     margin-bottom: 20px;
     bottom: 0;
@@ -40,7 +57,7 @@ p {
 }
 
 .networkSelectorRight {
-    margin-right: 20px;
+    padding-right: 20px;
     position: absolute;
     margin-bottom: 20px;
     bottom: 0;

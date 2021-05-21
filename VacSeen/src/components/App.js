@@ -6,12 +6,11 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App" style={{height:"100vh"}}>
+      <div className="App" style={{height:"100vh", width:"100vw"}}>
         <Router>
           <Switch>
             <Route path="/" exact component={() => <Main />} />
             <Route path="/Admin" exact component={() => <Admin />} />
-            <Route path="/Dashboard" exact component={() => <Dashboard />} />
             <Route path="/Hospital" exact component={() => <Hospital />} />
             <Route path="/Manufacturer" exact component={() => <Manufacturer />} />
             <Route path="/Public" exact component={() => <Public />} />

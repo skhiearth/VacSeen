@@ -1,4 +1,4 @@
-const BlockStore = artifacts.require("VacSeen");
+const VacSeen = artifacts.require("VacSeen");
 
 // Deploy VacSeen contract
 module.exports = function(deployer) {
