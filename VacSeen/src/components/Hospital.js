@@ -174,7 +174,7 @@ class Hospital extends Component {
 
   vaccinateCitizen(appointmentId, citizenId) {
     this.setState({ loading: true })
-    this.state.vacSeen.methods.registerHospital(appointmentId, citizenId).send({ from: this.state.account })
+    this.state.vacSeen.methods.vaccinateCitizen(appointmentId, citizenId).send({ from: this.state.account })
     .once('receipt', (receipt) => {
       this.setState({ loading: false })
       console.log(this.state.loading)
@@ -254,41 +254,28 @@ class Hospital extends Component {
               { this.state.appointments.map((appointment, key) => {
                 return(
                     
-                  <div className="card mb-4" key={key} >
-                    {/* Transaction Information */}
-                    <div className="card-header">
-                      <small className="text-muted">Appointment ID: {appointment.id.toString()}</small>
+                  <div className="card mb-3" key={key} >
+                    <div className="card-header" >
+                      <small className="text-muted">Appointment ID: {appointment.id.toString()}, Date: {(appointment.date.toString())}</small>
                       <p></p>
-                      <small className="text-muted">Date: {(appointment.date.toString())}</small>
+                      <small className="text-muted">Citizen's Address: {(appointment.citizen.toString())}, ID: {(appointment.citizenId.toString())}</small>
                       <p></p>
-                      <small className="text-muted">Citizen's Address: {(appointment.citizen.toString())}</small>
-                      <p></p>
-                      <small className="text-muted">Citizen's ID: {(appointment.citizenId.toString())}</small>
-                    </div>
-                    <ul id="certificateList" className="list-group list-group-flush">
-                      <li key={key} className="list-group-item py-3">
-
                       <small className="text-muted">Dose Count: {(appointment.doseCount.toString())}</small>
 
-                        <form onSubmit={(event) => {
+                      <form onSubmit={(event) => {
                             event.preventDefault()
+                            this.vaccinateCitizen(appointment.id.toString(), appointment.citizenId.toString())
                         }}>
                             <div style={{paddingTop: 14, marginLeft: 6, paddingBottom: 0}} class="input-group mb-3">
                             <button
                             className="btn btn-outline-success btn-sm float-right pt-0"
-                            appointmentId={appointment.id}
-                            citizenId={appointment.citizenId}
-                            onClick={(event) => {
-                              this.vaccinateCitizen(event.target.appointmentId, event.target.citizenId)
-                            }}
                           >
                           Vaccinate Citizen
                           </button>
                             </div>
                         </form>
 
-                      </li>
-                    </ul>
+                    </div>
                   </div>
                 )
               })}

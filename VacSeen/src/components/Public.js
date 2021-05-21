@@ -38,7 +38,7 @@ class Public extends Component {
         if(networkData) {
           const vacSeen = new web3.eth.Contract(VacSeen.abi, networkData && networkData.address)
           this.setState({ vacSeen })
-          this.setState({ network: "Celo" })
+          this.setState({ network: "CELO" })
           this.setState({ loading: false})
           this.setState({ account: accounts[0] })
 
@@ -62,7 +62,7 @@ class Public extends Component {
           }
 
           for (var j = 0; j < citizenCount; j++) {
-            const citizen = await vacSeen.methods.Citizens(i).call()
+            const citizen = await vacSeen.methods.Citizens(j).call()
             if(citizen.publicAddress === this.state.account){
               if(citizen.isCreated){
                 this.setState({ citizen })
@@ -81,7 +81,6 @@ class Public extends Component {
   
           for (i = 0; i < appointmentCount; i++) {
             const appointment = await vacSeen.methods.Appointments(i).call()
-            window.alert(appointment.citizen)
             if(appointment.citizen === this.state.account){
               if(!appointment.vaccinated){
                 this.setState({
@@ -117,7 +116,7 @@ class Public extends Component {
       if(networkData) {
         const vacSeen = new web3.eth.Contract(VacSeen.abi, networkData && networkData.address)
         this.setState({ vacSeen })
-        this.setState({ network: "Ethereum" })
+        this.setState({ network: "ETH" })
         this.setState({ loading: false })
         this.setState({ account: accounts[0] })
 
@@ -141,7 +140,7 @@ class Public extends Component {
           }
 
           for (var j = 0; j < citizenCount; j++) {
-            const citizen = await vacSeen.methods.Citizens(i).call()
+            const citizen = await vacSeen.methods.Citizens(j).call()
             if(citizen.publicAddress === this.state.account){
               if(citizen.isCreated){
                 this.setState({ citizen })
@@ -199,7 +198,7 @@ class Public extends Component {
     super(props)
     this.state = {
       account: '',
-      network: 'Celo',
+      network: 'CELO',
       vacSeen: null,
       loading: true,
       hospitalCount: 0,
@@ -249,25 +248,14 @@ class Public extends Component {
               <p></p>
               { this.state.appointments.map((appointment, key) => {
                 return(
-                  <div className="card mb-4" key={key} >
+                  <div className="card mb-3" key={key} >
                     <div className="card-header">
-                      <small className="text-muted">Appointment ID: {appointment.id.toString()}</small>
+                      <small className="text-muted">Appointment ID: {appointment.id.toString()}, Date: {(appointment.date.toString())}</small>
                       <p></p>
-                      <small className="text-muted">Date: {(appointment.date.toString())}</small>
+                      <small className="text-muted">Hospital's Address: {(appointment.hospital.toString())}, ID: {(appointment.hospitalId.toString())}</small>
                       <p></p>
-                      <small className="text-muted">Hospital's Address: {(appointment.hospital.toString())}</small>
-                      <p></p>
-                      <small className="text-muted">Hospital's ID: {(appointment.hospitalId.toString())}</small>
-                      <p></p>
-                      <small className="text-muted">Vaccine: {(appointment.vaccine.toString())}</small>
+                      <small className="text-muted">Vaccine: {(appointment.vaccine.toString())}, Dose Count: {(appointment.doseCount.toString())}</small>
                     </div>
-                    <ul id="certificateList" className="list-group list-group-flush">
-                      <li key={key} className="list-group-item py-3">
-
-                      <small className="text-muted">Dose Count: {(appointment.doseCount.toString())}</small>
-
-                      </li>
-                    </ul>
                   </div>
                 )
               })}
@@ -278,9 +266,9 @@ class Public extends Component {
                 return(
                   <div className="card mb-4" key={key} >
                     <div className="card-header">
-                      <small className="text-muted">Manufacturer's ID: {hospital.id.toString()}</small>
+                      <small className="text-muted">Hospital's ID: {hospital.id.toString()}</small>
                       <p></p>
-                      <small className="text-muted">Manufacturer: {(hospital.name.toString())} ({(hospital.owner.toString())})</small>
+                      <small className="text-muted">Hospital: {(hospital.name.toString())} ({(hospital.owner.toString())})</small>
                       <p></p>
                       <small className="text-muted">Vaccine: {(hospital.vaccine.toString())}</small>
                       <p></p>
@@ -289,9 +277,8 @@ class Public extends Component {
                     <ul id="certificateList" className="list-group list-group-flush">
                       <li key={key} className="list-group-item py-3">
 
-                      <small className="text-muted">Dose Cost: {window.web3.utils.fromWei(hospital.doseCost.toString(), 'Ether')} {this.state.network} </small>
-                      <p></p>
-                      <small className="text-muted">Stock: {(hospital.stock.toString())}</small>
+                      <small className="text-muted">Dose Cost: {window.web3.utils.fromWei(hospital.doseCost.toString(), 'Ether')} {this.state.network},   </small>
+                      <small className="text-muted">  Stock: {(hospital.stock.toString())}</small>
 
                         <form onSubmit={(event) => {
                            event.preventDefault()

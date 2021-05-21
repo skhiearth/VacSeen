@@ -114,7 +114,7 @@ contract VacSeen {
     // Citizens book vaccination slot
     function bookAppointment(string memory date, uint hospitalID, address payable hospitalAddress, string memory vaccine) public payable {
         require(CitizensAddress[msg.sender].vaccinated == false, "You are already vaccinated!");
-        require(Hospitals[hospitalAddress].stock >= 1, "Not enough stock");
+        require(HospitalsID[Hospitals[hospitalAddress].id].stock >= 1, "Not enough stock");
         Appointment memory appointment = Appointment(appointmentCount, date, msg.sender, CitizensAddress[msg.sender].id, hospitalAddress, 
         hospitalID, vaccine, CitizensAddress[msg.sender].doses+1, false); // Create new appointment
         Appointments[appointmentCount] = appointment; // Pass instance to mapping
@@ -154,8 +154,11 @@ contract VacSeen {
         }
         
         hospital.stock = hospital.stock - 1; // Reduce vaccine from stock
+
+        Hospital storage hospitalid = HospitalsID[Hospitals[msg.sender].id];
+        hospitalid.stock = hospitalid.stock - 1;
         
-        Appointments[appointmentId].vaccinated = false; // Set appointment as completed
+        Appointments[appointmentId].vaccinated = true; // Set appointment as completed
     }
     
     // Place vaccine order
@@ -163,6 +166,9 @@ contract VacSeen {
         Manufacturer memory manufacturer = ManufacturersID[Manufacturers[manufacturerAddress].id];
         require(quantity <= manufacturer.capacity, "Not enough quantity available");
         manufacturer.capacity = manufacturer.capacity - quantity;
+
+        Manufacturer memory manufacturerAdd = Manufacturers[manufacturerAddress];
+        manufacturerAdd.capacity = manufacturerAdd.capacity - quantity;
 
         Hospital storage hospital = HospitalsID[Hospitals[msg.sender].id];
         hospital.stock = hospital.stock + quantity;
