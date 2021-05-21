@@ -7,7 +7,7 @@ contract VacSeen {
     string name;
 
     constructor() public {
-        name = "BlockStore";
+        name = "VacSeen";
     }
 
     function getName() public view returns (string memory) {
