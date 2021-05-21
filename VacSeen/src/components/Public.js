@@ -43,6 +43,49 @@ class Public extends Component {
           this.setState({ network: "Celo" })
           this.setState({ loading: false})
           this.setState({ account: accounts[0] })
+
+          const hospitalCount = await vacSeen.methods.hospitalCount().call()
+          this.setState({ hospitalCount })
+
+          const manufacturerCount = await vacSeen.methods.manufacturerCount().call()
+          this.setState({ manufacturerCount })
+  
+          for (var i = 0; i < hospitalCount; i++) {
+            const hospital = await vacSeen.methods.HospitalsID(i).call()
+            if(hospital.owner === this.state.account){
+              if(hospital.isValidated){
+                this.setState({ hospital })
+                this.setState({
+                  validHospital: true
+                })
+
+                for (var k = 0; k < manufacturerCount; k++) {
+                  const manufacturer = await vacSeen.methods.ManufacturersID(k).call()
+                  if(manufacturer.vaccine === hospital.vaccine){
+                      this.setState({
+                        manufacturers: [...this.state.manufacturers, manufacturer]
+                      })
+                  }
+                }
+
+              }
+            }
+          }
+          
+
+          const appointmentCount = await vacSeen.methods.appointmentCount().call()
+          this.setState({ appointmentCount })
+
+          for (i = 0; i < appointmentCount; i++) {
+            const appointment = await vacSeen.methods.Appointments(i).call()
+            if(appointment.hospital === this.state.account){
+              if(!appointment.vaccinated){
+                this.setState({
+                  appointments: [...this.state.appointments, appointment]
+                })
+              }
+            }
+          }
         } 
       } catch (error) {
         console.log(`⚠️ ${error}.`)
@@ -73,6 +116,48 @@ class Public extends Component {
         this.setState({ network: "Ethereum" })
         this.setState({ loading: false })
         this.setState({ account: accounts[0] })
+
+        const hospitalCount = await vacSeen.methods.hospitalCount().call()
+          this.setState({ hospitalCount })
+
+          for (var i = 0; i < hospitalCount; i++) {
+            const hospital = await vacSeen.methods.HospitalsID(i).call()
+            if(!hospital.isValidated){
+              this.setState({
+                invalidatedHospitals: [...this.state.invalidatedHospitals, hospital]
+              })
+            } else {
+              this.setState({
+                validatedHospitals: [...this.state.validatedHospitals, hospital]
+              })
+            }
+          }
+
+          for (var j = 0; j < hospitalCount; j++) {
+            const citizen = await vacSeen.methods.Citizens(i).call()
+            if(citizen.publicAddress === this.state.account){
+              if(citizen.isCreated){
+                this.setState({ citizen })
+                this.setState({
+                  validPublic: true
+                })
+              }
+            }
+          }
+
+        const appointmentCount = await vacSeen.methods.appointmentCount().call()
+        this.setState({ appointmentCount })
+
+        for (i = 0; i < appointmentCount; i++) {
+          const appointment = await vacSeen.methods.Appointments(i).call()
+          if(appointment.citizen === this.state.account){
+            if(!appointment.vaccinated){
+              this.setState({
+                appointments: [...this.state.appointments, appointment]
+              })
+            }
+          }
+        }
       }
     }
     else {
@@ -86,7 +171,12 @@ class Public extends Component {
       account: '',
       network: 'Celo',
       vacSeen: null,
-      loading: true
+      loading: true,
+      hospitalCount: 0,
+      citizen: null,
+      invalidatedHospitals: [],
+      validatedHospitals: [],
+      validPublic: false
     }
 
     this.setupCelo = this.setupCelo.bind(this)
