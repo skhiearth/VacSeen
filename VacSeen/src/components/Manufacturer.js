@@ -67,8 +67,6 @@ class Manufacturer extends Component {
   async setupEthereum() {
     if (window.web3) {
       this.setState({ loading: true })
-      window.web3 = new Web3(window.web3.currentProvider);
-      window.ethereum.enable();
 
       const portis = new Portis('dffb7971-7b9c-4dd2-9795-521722448b7d', 'ropsten');
       const web3 = new Web3(portis.provider);
