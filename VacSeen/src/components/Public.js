@@ -47,45 +47,47 @@ class Public extends Component {
           const hospitalCount = await vacSeen.methods.hospitalCount().call()
           this.setState({ hospitalCount })
 
-          const manufacturerCount = await vacSeen.methods.manufacturerCount().call()
-          this.setState({ manufacturerCount })
-  
+          const citizenCount = await vacSeen.methods.citizenCount().call()
+          this.setState({ citizenCount })
+
           for (var i = 0; i < hospitalCount; i++) {
             const hospital = await vacSeen.methods.HospitalsID(i).call()
-            if(hospital.owner === this.state.account){
-              if(hospital.isValidated){
-                this.setState({ hospital })
-                this.setState({
-                  validHospital: true
-                })
-
-                for (var k = 0; k < manufacturerCount; k++) {
-                  const manufacturer = await vacSeen.methods.ManufacturersID(k).call()
-                  if(manufacturer.vaccine === hospital.vaccine){
-                      this.setState({
-                        manufacturers: [...this.state.manufacturers, manufacturer]
-                      })
-                  }
-                }
-
-              }
+            if(!hospital.isValidated){
+              this.setState({
+                invalidatedHospitals: [...this.state.invalidatedHospitals, hospital]
+              })
+            } else {
+              this.setState({
+                validatedHospitals: [...this.state.validatedHospitals, hospital]
+              })
             }
           }
-          
 
-          const appointmentCount = await vacSeen.methods.appointmentCount().call()
-          this.setState({ appointmentCount })
-
-          for (i = 0; i < appointmentCount; i++) {
-            const appointment = await vacSeen.methods.Appointments(i).call()
-            if(appointment.hospital === this.state.account){
-              if(!appointment.vaccinated){
+          for (var j = 0; j < citizenCount; j++) {
+            const citizen = await vacSeen.methods.Citizens(i).call()
+            if(citizen.publicAddress === this.state.account){
+              if(citizen.isCreated){
+                this.setState({ citizen })
                 this.setState({
-                  appointments: [...this.state.appointments, appointment]
+                  validPublic: true
                 })
               }
             }
           }
+
+        const appointmentCount = await vacSeen.methods.appointmentCount().call()
+        this.setState({ appointmentCount })
+
+        for (i = 0; i < appointmentCount; i++) {
+          const appointment = await vacSeen.methods.Appointments(i).call()
+          if(appointment.citizen === this.state.account){
+            if(!appointment.vaccinated){
+              this.setState({
+                appointments: [...this.state.appointments, appointment]
+              })
+            }
+          }
+        }
         } 
       } catch (error) {
         console.log(`⚠️ ${error}.`)
@@ -120,6 +122,9 @@ class Public extends Component {
         const hospitalCount = await vacSeen.methods.hospitalCount().call()
           this.setState({ hospitalCount })
 
+          const citizenCount = await vacSeen.methods.citizenCount().call()
+          this.setState({ citizenCount })
+
           for (var i = 0; i < hospitalCount; i++) {
             const hospital = await vacSeen.methods.HospitalsID(i).call()
             if(!hospital.isValidated){
@@ -133,7 +138,7 @@ class Public extends Component {
             }
           }
 
-          for (var j = 0; j < hospitalCount; j++) {
+          for (var j = 0; j < citizenCount; j++) {
             const citizen = await vacSeen.methods.Citizens(i).call()
             if(citizen.publicAddress === this.state.account){
               if(citizen.isCreated){
@@ -165,6 +170,15 @@ class Public extends Component {
     }
   }
 
+  registerCitizen(name) {
+    this.setState({ loading: true })
+    this.state.vacSeen.methods.registerCitizen(name).send({ from: this.state.account })
+    .once('receipt', (receipt) => {
+      this.setState({ loading: false })
+      console.log(this.state.loading)
+    })
+  }
+
   constructor(props) {
     super(props)
     this.state = {
@@ -176,11 +190,13 @@ class Public extends Component {
       citizen: null,
       invalidatedHospitals: [],
       validatedHospitals: [],
-      validPublic: false
+      validPublic: false,
+      appointments: []
     }
 
     this.setupCelo = this.setupCelo.bind(this)
     this.setupEthereum = this.setupEthereum.bind(this)
+    this.registerCitizen = this.registerCitizen.bind(this)
   }
 
   render() {
@@ -203,10 +219,126 @@ class Public extends Component {
           : 
           <div>
             <div class="row">
-              <div class="col-6"></div>
-              <div class="col-6">  
-                
+            <div class="col-6" style={{marginLeft: 15}}>  
+              {
+                this.state.validPublic ?
+                <div>
+                  <div style={{textAlign:"center", verticalAlign:"middle"}}>
+                    <p></p>
+                    <p></p>
+                  <p className={styles.headings}>Your Appointments</p>
               </div>
+              <p></p>
+              { this.state.appointments.map((appointment, key) => {
+                return(
+                    
+                  <div className="card mb-4" key={key} >
+                    <div className="card-header">
+                      <small className="text-muted">Appointment ID: {appointment.id.toString()}</small>
+                      <p></p>
+                      <small className="text-muted">Date: {(appointment.date.toString())}</small>
+                      <p></p>
+                      <small className="text-muted">Hospital's Address: {(appointment.hospital.toString())}</small>
+                      <p></p>
+                      <small className="text-muted">Hospital's ID: {(appointment.hospitalId.toString())}</small>
+                      <p></p>
+                      <small className="text-muted">Vaccine: {(appointment.vaccine.toString())}</small>
+                    </div>
+                    <ul id="certificateList" className="list-group list-group-flush">
+                      <li key={key} className="list-group-item py-3">
+
+                      <small className="text-muted">Dose Count: {(appointment.doseCount.toString())}</small>
+
+                      </li>
+                    </ul>
+                  </div>
+                )
+              })}
+
+                <p className={styles.headings}>Book Appointments</p>
+
+                { this.state.validatedHospitals.map((hospital, key) => {
+                return(
+                  <div className="card mb-4" key={key} >
+                    <div className="card-header">
+                      <small className="text-muted">Manufacturer's ID: {hospital.id.toString()}</small>
+                      <p></p>
+                      <small className="text-muted">Manufacturer: {(hospital.name.toString())} ({(hospital.owner.toString())})</small>
+                      <p></p>
+                      <small className="text-muted">Vaccine: {(hospital.vaccine.toString())}</small>
+                      <p></p>
+                      <small className="text-muted">NABH NO.: {(hospital.nabhID.toString())}</small>
+                    </div>
+                    <ul id="certificateList" className="list-group list-group-flush">
+                      <li key={key} className="list-group-item py-3">
+
+                      <small className="text-muted">Dose Cost: {window.web3.utils.fromWei(hospital.doseCost.toString(), 'Ether')} {this.state.network} </small>
+                      <p></p>
+                      <small className="text-muted">Stock: {(hospital.stock.toString())}</small>
+
+                        <form onSubmit={(event) => {
+                           event.preventDefault()
+                           const date = this.date.value
+                           this.bookAppointment(date, hospital.id.toString(), hospital.owner.toString(), hospital.vaccine.toString())
+                        }}>
+                            <div style={{paddingTop: 14, marginLeft: 6, paddingBottom: 0}} class="input-group mb-3">
+                            <input
+                                style={{marginRight: 6, marginLeft: 6, width: "50%"}}
+                                id="date"
+                                type="text"
+                                ref={(input) => { this.quantity = input }}
+                                className="form-control"
+                                placeholder="Date of appointment"
+                                required />
+                                <button type="submit" style={{marginRight: 16}} className="btn btn-outline-success btn-sm float-right pt-0">Book Appointment</button>
+                            </div>
+                        </form>
+
+                      </li>
+                    </ul>
+                  </div>
+                )
+                })}
+
+                
+
+                </div> 
+                :
+                <div>
+                  <div style={{textAlign:"center", verticalAlign:"middle"}}>
+                  <div className={styles.verifyTitle} style={{textAlign:"center"}}>You are not yet registered for vaccination. Create your profile.</div>
+                </div>
+                <p></p>
+                  <form onSubmit={(event) => {
+                    event.preventDefault()
+                    const name = this.citizenName.value
+                    this.registerCitizen(name)
+                  }}>
+                  <div className="form-group">
+                    <input
+                      id="citizenName"
+                      type="text"
+                      ref={(input) => { this.citizenName = input }}
+                      className="form-control"
+                      placeholder="Your full name (as per documents)"
+                      required />
+                  </div>
+                  <button type="submit" className="btn btn btn-outline-light btn-block">Register for vaccination</button>
+                </form>
+                </div>
+              }
+              </div>
+              <div class="col-5">
+                <div>
+                    {
+                      this.state.validPublic ?
+                      <div>You have got {this.state.citizen.doses} doses</div> :
+                      <div></div>
+                    }
+                  </div>
+              </div>
+              <div class="col-5"></div>
+              
             </div>
 
             <div className={styles.networkSelector}>

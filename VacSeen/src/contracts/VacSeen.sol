@@ -50,8 +50,8 @@ contract VacSeen {
     mapping(uint => Manufacturer) public ManufacturersID; // Mapping that holds records of all manufacturers by id
     mapping(address => Hospital) public Hospitals; // Mapping that holds records of all hospitals
     mapping(uint => Hospital) public HospitalsID; // Mapping that holds records of all hospitals by id
-    mapping(address => Citizen) CitizensAddress; // Mapping that holds records of all citizens by address
-    mapping(uint => Citizen) Citizens; // Mapping that holds records of all citizens 
+    mapping(address => Citizen) public CitizensAddress; // Mapping that holds records of all citizens by address
+    mapping(uint => Citizen) public Citizens; // Mapping that holds records of all citizens 
     mapping(uint => Appointment) Appointments; // Mapping that holds records of all appointments 
 
     // Structs for Hospital, Manufacturers, Citizens and Appointments
