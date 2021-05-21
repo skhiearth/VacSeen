@@ -183,7 +183,7 @@ class Hospital extends Component {
 
   placeVaccineOrder(manufacturerAddress, quantity, value) {
     this.setState({ loading: true })
-    this.state.vacSeen.methods.placeVaccineOrder(manufacturerAddress, quantity).send({ from: this.state.account, value: value })
+    this.state.vacSeen.methods.placeVaccineOrder(manufacturerAddress, quantity).send({ from: this.state.account, value: (value * quantity) })
     .once('receipt', (receipt) => {
       this.setState({ loading: false })
       console.log(this.state.loading)
@@ -255,7 +255,6 @@ class Hospital extends Component {
                 return(
                     
                   <div className="card mb-4" key={key} >
-                    {/* Transaction Information */}
                     <div className="card-header">
                       <small className="text-muted">Appointment ID: {appointment.id.toString()}</small>
                       <p></p>
@@ -310,13 +309,14 @@ class Hospital extends Component {
                     <ul id="certificateList" className="list-group list-group-flush">
                       <li key={key} className="list-group-item py-3">
 
-                      <small className="text-muted">Dose Cost: {(manufacturer.doseCost.toString())}</small>
+                      <small className="text-muted">Dose Cost: {window.web3.utils.fromWei(manufacturer.doseCost.toString(), 'Ether')} {this.state.network} </small>
+                      <p></p>
                       <small className="text-muted">Stock: {(manufacturer.capacity.toString())}</small>
 
                         <form onSubmit={(event) => {
                            event.preventDefault()
                            const quantity = this.quantity.value
-                           this.placeVaccineOrder(manufacturer.owner, quantity, window.web3.utils.toWei(manufacturer.doseCost.toString(), 'Ether'))
+                           this.placeVaccineOrder(manufacturer.owner, quantity, manufacturer.doseCost)
                         }}>
                             <div style={{paddingTop: 14, marginLeft: 6, paddingBottom: 0}} class="input-group mb-3">
                             <input

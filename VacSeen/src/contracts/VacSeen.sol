@@ -74,6 +74,7 @@ contract VacSeen {
         uint capacity;
         uint gstNo;
         uint doseCost;
+        bool isCreated;
     }
     
     struct Citizen {
@@ -163,7 +164,7 @@ contract VacSeen {
         require(quantity <= manufacturer.capacity, "Not enough quantity available");
         manufacturer.capacity = manufacturer.capacity - quantity;
         
-        manufacturer.owner.transfer(msg.value * quantity); // Pay the manufacturer
+        manufacturer.owner.transfer(msg.value); // Pay the manufacturer
     }
     // ---END HOSPITAL METHODS---
     
@@ -172,14 +173,14 @@ contract VacSeen {
     /// ---MANUFACTURER METHODS---
     // Register hospital
     function registerManufacturer(string memory name, string memory vaccine, uint gstNo, uint doseCost) public {
-        Manufacturer memory manufacturer = Manufacturer(manufacturerCount, name, msg.sender, vaccine, 0, gstNo, doseCost); // Create new instance variable 
+        Manufacturer memory manufacturer = Manufacturer(manufacturerCount, name, msg.sender, vaccine, 0, gstNo, doseCost, true); // Create new instance variable 
         Manufacturers[msg.sender] = manufacturer; // Pass instance to mapping 
         ManufacturersID[manufacturerCount] = manufacturer; // Pass instance to mapping 
         manufacturerCount++; // Increment identifier for subsequent creation
     }
     
     function addSupply(uint supply) public {
-        Manufacturer storage manufacturer = Manufacturers[msg.sender];
+        Manufacturer storage manufacturer = ManufacturersID[Manufacturers[msg.sender].id];
         manufacturer.capacity = manufacturer.capacity + supply;
     }
     /// ---END MANUFACTURER METHODS---
