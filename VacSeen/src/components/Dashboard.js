@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import  { Redirect } from 'react-router-dom'
 import { withRouter } from "react-router";
+import { Navigation } from ".";
 import Web3 from 'web3';
 import styles from './App.module.css';
 import VacSeen from '../abis/VacSeen.json'
@@ -22,7 +23,10 @@ class Dashboard extends Component {
 
   render() {
     return (
-      <div></div>
+      <div style={{backgroundImage: "url(" + bg + ")", height: "100%", backgroundPosition: "bottom", 
+      backgroundSize: "cover", backgroundRepeat: 'no-repeat', resizeMode: 'cover', textAlign: "center"}}>
+        <Navigation color="#"/>
+      </div>
     );
   }
 }

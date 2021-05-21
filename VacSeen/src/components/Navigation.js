@@ -5,24 +5,12 @@ import icon from './Assets/icon.png';
 
 function Navigation(props) {
   return (
-    <div className="navigation">
+    <div className="navigation" style={{backgroundColor: props.color}}>
       <nav class="py-3 navbar navbar-expand-sm">
         <div class="container">
-        <img src={icon} style={{height: 80, width: 275}} alt="Logo" /> 
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarResponsive"
-            aria-controls="navbarResponsive"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
           <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-              <li
+            <li
                 class={`nav-item  ${
                   props.location.pathname === "/" ? "active" : ""
                 }`}
@@ -34,20 +22,39 @@ function Navigation(props) {
               </li>
               <li
                 class={`nav-item  ${
-                  props.location.pathname === "/Orders" ? "active" : ""
+                  props.location.pathname === "/Admin" ? "active" : ""
                 }`}
               >
-                <Link class="nav-link" to="/Orders" className={styles.navbarlinks}>
-                  Orders
+                <Link class="nav-link" to="/Admin" className={styles.navbarlinks}>
+                  Admin
+                  <span class="sr-only">(current)</span>
                 </Link>
               </li>
               <li
                 class={`nav-item  ${
-                  props.location.pathname === "/Orders" ? "active" : ""
+                  props.location.pathname === "/Public" ? "active" : ""
                 }`}
               >
-                <Link class="nav-link" to="/Seller" className={styles.navbarlinks}>
-                  Sell your products
+                <Link class="nav-link" to="/Public" className={styles.navbarlinks}>
+                  General Public
+                </Link>
+              </li>
+              <li
+                class={`nav-item  ${
+                  props.location.pathname === "/Hospital" ? "active" : ""
+                }`}
+              >
+                <Link class="nav-link" to="/Hospital" className={styles.navbarlinks}>
+                  Hospital
+                </Link>
+              </li>
+              <li
+                class={`nav-item  ${
+                  props.location.pathname === "/Manufacturer" ? "active" : ""
+                }`}
+              >
+                <Link class="nav-link" to="/Manufacturer" className={styles.navbarlinks}>
+                Manufacturer
                 </Link>
               </li>
             </ul>
