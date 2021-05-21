@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { Main, Admin, Hospital, Dashboard, Manufacturer, Public } from ".";
+import { Main, Admin, Hospital, Manufacturer, Public } from ".";
 
 class App extends Component {
 

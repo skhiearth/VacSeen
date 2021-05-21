@@ -52,7 +52,7 @@ contract VacSeen {
     mapping(uint => Hospital) public HospitalsID; // Mapping that holds records of all hospitals by id
     mapping(address => Citizen) public CitizensAddress; // Mapping that holds records of all citizens by address
     mapping(uint => Citizen) public Citizens; // Mapping that holds records of all citizens 
-    mapping(uint => Appointment) Appointments; // Mapping that holds records of all appointments 
+    mapping(uint => Appointment) public Appointments; // Mapping that holds records of all appointments 
 
     // Structs for Hospital, Manufacturers, Citizens and Appointments
     struct Hospital {
@@ -164,7 +164,7 @@ contract VacSeen {
         require(quantity <= manufacturer.capacity, "Not enough quantity available");
         manufacturer.capacity = manufacturer.capacity - quantity;
 
-        Hospital storage hospital = Hospitals[msg.sender];
+        Hospital storage hospital = HospitalsID[Hospitals[msg.sender].id];
         hospital.stock = hospital.stock + quantity;
         
         manufacturerAddress.transfer(msg.value); // Pay the manufacturer

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import  { Redirect } from 'react-router-dom'
-import { withRouter } from "react-router";
-import { Navigation, Footer } from ".";
+import { Navigation } from ".";
 import Web3 from 'web3';
 import styles from './App.module.css';
 import VacSeen from '../abis/VacSeen.json'
@@ -68,6 +66,9 @@ class Public extends Component {
             if(citizen.publicAddress === this.state.account){
               if(citizen.isCreated){
                 this.setState({ citizen })
+                if(citizen.vaccinated){
+                  this.setState({ vaccinated: true })
+                }
                 this.setState({
                   validPublic: true
                 })
@@ -75,19 +76,20 @@ class Public extends Component {
             }
           }
 
-        const appointmentCount = await vacSeen.methods.appointmentCount().call()
-        this.setState({ appointmentCount })
-
-        for (i = 0; i < appointmentCount; i++) {
-          const appointment = await vacSeen.methods.Appointments(i).call()
-          if(appointment.citizen === this.state.account){
-            if(!appointment.vaccinated){
-              this.setState({
-                appointments: [...this.state.appointments, appointment]
-              })
+          const appointmentCount = await vacSeen.methods.appointmentCount().call()
+          this.setState({ appointmentCount })
+  
+          for (i = 0; i < appointmentCount; i++) {
+            const appointment = await vacSeen.methods.Appointments(i).call()
+            window.alert(appointment.citizen)
+            if(appointment.citizen === this.state.account){
+              if(!appointment.vaccinated){
+                this.setState({
+                  appointments: [...this.state.appointments, appointment]
+                })
+              }
             }
           }
-        }
         } 
       } catch (error) {
         console.log(`⚠️ ${error}.`)
@@ -143,6 +145,9 @@ class Public extends Component {
             if(citizen.publicAddress === this.state.account){
               if(citizen.isCreated){
                 this.setState({ citizen })
+                if(citizen.vaccinated){
+                  this.setState({ vaccinated: true })
+                }
                 this.setState({
                   validPublic: true
                 })
@@ -152,9 +157,11 @@ class Public extends Component {
 
         const appointmentCount = await vacSeen.methods.appointmentCount().call()
         this.setState({ appointmentCount })
+        window.alert(appointmentCount)
 
         for (i = 0; i < appointmentCount; i++) {
           const appointment = await vacSeen.methods.Appointments(i).call()
+          window.alert(appointment.citizen)
           if(appointment.citizen === this.state.account){
             if(!appointment.vaccinated){
               this.setState({
@@ -179,6 +186,15 @@ class Public extends Component {
     })
   }
 
+  bookAppointment(date, id, address, vaccine, value) {
+    this.setState({ loading: true })
+    this.state.vacSeen.methods.bookAppointment(date, id, address, vaccine).send({ from: this.state.account, value: value })
+    .once('receipt', (receipt) => {
+      this.setState({ loading: false })
+      console.log(this.state.loading)
+    })
+  }
+
   constructor(props) {
     super(props)
     this.state = {
@@ -191,12 +207,14 @@ class Public extends Component {
       invalidatedHospitals: [],
       validatedHospitals: [],
       validPublic: false,
-      appointments: []
+      appointments: [],
+      vaccinated: false
     }
 
     this.setupCelo = this.setupCelo.bind(this)
     this.setupEthereum = this.setupEthereum.bind(this)
     this.registerCitizen = this.registerCitizen.bind(this)
+    this.bookAppointment = this.bookAppointment.bind(this)
   }
 
   render() {
@@ -231,7 +249,6 @@ class Public extends Component {
               <p></p>
               { this.state.appointments.map((appointment, key) => {
                 return(
-                    
                   <div className="card mb-4" key={key} >
                     <div className="card-header">
                       <small className="text-muted">Appointment ID: {appointment.id.toString()}</small>
@@ -279,14 +296,14 @@ class Public extends Component {
                         <form onSubmit={(event) => {
                            event.preventDefault()
                            const date = this.date.value
-                           this.bookAppointment(date, hospital.id.toString(), hospital.owner.toString(), hospital.vaccine.toString())
+                           this.bookAppointment(date, hospital.id.toString(), hospital.owner.toString(), hospital.vaccine.toString(), hospital.doseCost.toString())
                         }}>
                             <div style={{paddingTop: 14, marginLeft: 6, paddingBottom: 0}} class="input-group mb-3">
                             <input
                                 style={{marginRight: 6, marginLeft: 6, width: "50%"}}
                                 id="date"
                                 type="text"
-                                ref={(input) => { this.quantity = input }}
+                                ref={(input) => { this.date = input }}
                                 className="form-control"
                                 placeholder="Date of appointment"
                                 required />
@@ -328,7 +345,7 @@ class Public extends Component {
                 </div>
               }
               </div>
-              <div class="col-5">
+              <div class="col-4">
                 <div>
                     {
                       this.state.validPublic ?

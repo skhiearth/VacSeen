@@ -1,7 +1,6 @@
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
 import styles from './App.module.css';
-import icon from './Assets/icon.png';
 
 function Navigation(props) {
   return (
