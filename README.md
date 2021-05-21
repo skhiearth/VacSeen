@@ -1,7 +1,17 @@
 # VacSeen
-by The Misfits
+by The Misfits at TechnoHack
 
-Made with ❤️ at TechnoHack
+The Coronavirus pandemic has struck India hard. The crumbling healthcare system and vaccine shortage don’t make the situation any better. While vaccines are the only reliable weapon against this menacing disease, citizens have been struggling to get themselves vaccinated with crashing servers, shortage of doses and black market dealings. VacSeen is a blockchain based vaccination portal that targets all ends of the vaccination chain, from manufacturer to members of the public.
+
+VacSeen targets all ends of the vaccine chain, from citizens to vaccine manufacturers, catering to the needs and requirements of all. Features of the platform from user perspective can be described as:
+
+### Citizens
+
+### Government/Admin
+
+### Healthcare Providers
+
+### Vaccine Manufacturers
 
 ## Requirements
 
