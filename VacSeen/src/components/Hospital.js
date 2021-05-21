@@ -38,7 +38,7 @@ class Hospital extends Component {
         if(networkData) {
           const vacSeen = new web3.eth.Contract(VacSeen.abi, networkData && networkData.address)
           this.setState({ vacSeen })
-          this.setState({ network: "CELO" })
+          this.setState({ network: "Celo" })
           this.setState({ loading: false})
           this.setState({ account: accounts[0] })
 
@@ -111,7 +111,7 @@ class Hospital extends Component {
       if(networkData) {
         const vacSeen = new web3.eth.Contract(VacSeen.abi, networkData && networkData.address)
         this.setState({ vacSeen })
-        this.setState({ network: "ETH" })
+        this.setState({ network: "Ethereum" })
         this.setState({ loading: false })
         this.setState({ account: accounts[0] })
 
@@ -194,7 +194,7 @@ class Hospital extends Component {
     super(props)
     this.state = {
       account: '',
-      network: 'CELO',
+      network: 'Celo',
       vacSeen: null,
       loading: true,
       validHospital: false,
@@ -255,6 +255,7 @@ class Hospital extends Component {
                 return(
                     
                   <div className="card mb-4" key={key} >
+                    {/* Transaction Information */}
                     <div className="card-header">
                       <small className="text-muted">Appointment ID: {appointment.id.toString()}</small>
                       <p></p>
@@ -316,7 +317,7 @@ class Hospital extends Component {
                         <form onSubmit={(event) => {
                            event.preventDefault()
                            const quantity = this.quantity.value
-                           this.placeVaccineOrder(manufacturer.owner, quantity, manufacturer.doseCost)
+                           this.placeVaccineOrder(manufacturer.owner, quantity, manufacturer.doseCost.toString())
                         }}>
                             <div style={{paddingTop: 14, marginLeft: 6, paddingBottom: 0}} class="input-group mb-3">
                             <input

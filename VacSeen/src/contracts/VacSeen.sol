@@ -6,7 +6,7 @@ contract VacSeen {
 
     // ---GOVERNMENT CONTROL---
     // Government
-    address public government;
+    address government;
     
     // Set the contract creator as government
     constructor() public {
@@ -159,12 +159,15 @@ contract VacSeen {
     }
     
     // Place vaccine order
-    function placeVaccineOrder(address manufacturerAddress, uint quantity) payable public {
-        Manufacturer memory manufacturer = Manufacturers[manufacturerAddress];
+    function placeVaccineOrder(address payable manufacturerAddress, uint quantity) payable public {
+        Manufacturer memory manufacturer = ManufacturersID[Manufacturers[manufacturerAddress].id];
         require(quantity <= manufacturer.capacity, "Not enough quantity available");
         manufacturer.capacity = manufacturer.capacity - quantity;
+
+        Hospital storage hospital = Hospitals[msg.sender];
+        hospital.stock = hospital.stock + quantity;
         
-        manufacturer.owner.transfer(msg.value); // Pay the manufacturer
+        manufacturerAddress.transfer(msg.value); // Pay the manufacturer
     }
     // ---END HOSPITAL METHODS---
     
