@@ -26,6 +26,14 @@ html, body, #app, #app>div {
     font-weight: 600;
 }
 
+.headings {
+    color: black;
+    font-family: 'Raleway', sans-serif;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+}
+
 .footerHeader {
     color: black;
     font-family: 'Raleway', sans-serif;
