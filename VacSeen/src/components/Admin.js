@@ -38,7 +38,31 @@ class Admin extends Component {
         if(networkData) {
           const vacSeen = new web3.eth.Contract(VacSeen.abi, networkData && networkData.address)
           this.setState({ vacSeen })
-          this.setState({ network: "Celo" })
+          this.setState({ network: "CELO" })
+
+          const admin = await vacSeen.methods.getGovernment().call()
+          this.setState({ admin })
+
+          const hospitalCount = await vacSeen.methods.hospitalCount().call()
+          this.setState({ hospitalCount })
+
+          for (var i = 0; i < hospitalCount; i++) {
+            const hospital = await vacSeen.methods.HospitalsID(i).call()
+            if(!hospital.isValidated){
+              this.setState({
+                invalidatedHospitals: [...this.state.invalidatedHospitals, hospital]
+              })
+            } else {
+              this.setState({
+                validatedHospitals: [...this.state.validatedHospitals, hospital]
+              })
+            }
+          }
+
+          if(admin === accounts[0]){
+            this.setState({ validAdmin: true })
+          }
+
           this.setState({ loading: false})
           this.setState({ account: accounts[0] })
         } 
@@ -68,7 +92,31 @@ class Admin extends Component {
       if(networkData) {
         const vacSeen = new web3.eth.Contract(VacSeen.abi, networkData && networkData.address)
         this.setState({ vacSeen })
-        this.setState({ network: "Ethereum" })
+        this.setState({ network: "ETH" })
+
+        const admin = await vacSeen.methods.getGovernment().call()
+        this.setState({ admin })
+
+        const hospitalCount = await vacSeen.methods.hospitalCount().call()
+        this.setState({ hospitalCount })
+
+        for (var i = 0; i < hospitalCount; i++) {
+          const hospital = await vacSeen.methods.HospitalsID(i).call()
+          if(!hospital.isValidated){
+            this.setState({
+              invalidatedHospitals: [...this.state.invalidatedHospitals, hospital]
+            })
+          } else {
+            this.setState({
+              validatedHospitals: [...this.state.validatedHospitals, hospital]
+            })
+          }
+        }
+
+        if(admin === accounts[0]){
+          this.setState({ validAdmin: true })
+        }
+
         this.setState({ loading: false })
         this.setState({ account: accounts[0] })
       }
@@ -78,17 +126,32 @@ class Admin extends Component {
     }
   }
 
+  validateHospital(hospitalID) {
+    this.setState({ loading: true })
+    this.state.vacSeen.methods.validateHospital(hospitalID).send({ from: this.state.account })
+    .once('receipt', (receipt) => {
+      this.setState({ loading: false })
+      console.log(this.state.loading)
+    })
+  }
+
   constructor(props) {
     super(props)
     this.state = {
       account: '',
-      network: 'Celo',
+      network: 'CELO',
       vacSeen: null,
-      loading: true
+      loading: true,
+      admin: null,
+      validAdmin: false,
+      hospitalCount: 0,
+      invalidatedHospitals: [],
+      validatedHospitals: []
     }
 
     this.setupCelo = this.setupCelo.bind(this)
     this.setupEthereum = this.setupEthereum.bind(this)
+    this.validateHospital = this.validateHospital.bind(this)
   }
 
   render() {
@@ -111,9 +174,87 @@ class Admin extends Component {
           : 
           <div>
             <div class="row">
-              <div class="col-6"></div>
-              <div class="col-6">  
-                
+              <div class="col-6" style={{marginLeft: 15}}>  
+                {
+                  this.state.validAdmin ?
+                  <div>
+                    You are logged in as the admin: {this.state.admin}
+
+                    <p></p>
+                    <p className={styles.headings}>Invalidated Hospitals: </p>
+                    { this.state.invalidatedHospitals.map((hospital, key) => {
+                        return(
+                          <div className="card mb-4 border-danger" key={key} >
+                            <div className="card-header">
+                              <small>{hospital.name}</small>
+                              <p></p>
+                              <small className="text-muted">Vaccine: {hospital.vaccine}</small>
+                              
+                              <p></p>
+                              <small style={{marginTop: -20}} className="text-muted float-right">NAHB ID: {hospital.nabhID.toString()}</small>
+                              <small className="text-muted float-right">Blockchain Hospital ID: {hospital.id.toString()}</small>
+                            </div>
+                            <ul className="list-group list-group-flush">
+                              
+                              <li key={key} className="list-group-item py-2">
+
+                              <small className="float-left mt-1 text-muted">
+                                  Cost of one dose: {window.web3.utils.fromWei(hospital.doseCost.toString(), 'Ether')} {this.state.network}
+                                </small>
+
+                                <button
+                                  className="btn btn-outline-success btn-sm float-right pt-0"
+                                  name={hospital.id}
+                                  onClick={(event) => {
+                                    this.validateHospital(event.target.name)
+                                  }}
+                                >
+                                Validate
+                                </button>
+
+                              </li>
+                            </ul>
+                          </div>
+                        )
+                })}
+
+                    <p></p>
+                    <p className={styles.headings}>Validated Hospitals: </p>
+                    { this.state.validatedHospitals.map((hospital, key) => {
+                        return(
+                          <div className="card mb-4 border-success" key={key} >
+                            <div className="card-header">
+                              <small>{hospital.name}</small>
+                              <p></p>
+                              <small className="text-muted">Vaccine: {hospital.vaccine}</small>
+                              
+                              <p></p>
+                              <small style={{marginTop: -20}} className="text-muted float-right">NAHB ID: {hospital.nabhID.toString()}</small>
+                            </div>
+                            <ul className="list-group list-group-flush">
+                              
+                              <li key={key} className="list-group-item py-2">
+
+                              <small className="float-left mt-1 text-muted">
+                                  Cost of one dose: {window.web3.utils.fromWei(hospital.doseCost.toString(), 'Ether')} {this.state.network}
+                                </small>
+                                <p></p>
+                                <small className="float-right mt-1 text-muted">
+                                  Stock: {hospital.stock.toString()} units
+                                </small>
+                                
+                              </li>
+                            </ul>
+                          </div>
+                        )
+                })}
+
+                  </div> :
+                  <div>
+                    <br></br>
+                    Access denied. Only the admin/contract creator can access this tab.
+                  </div>
+                }
               </div>
             </div>
 
