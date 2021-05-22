@@ -9,7 +9,7 @@ The Coronavirus pandemic has struck India hard. The crumbling healthcare system 
 
 VacSeen targets all ends of the vaccine chain, from citizens to vaccine manufacturers, catering to the needs and requirements of all. Features of the platform from user perspective can be described as:
 
-### Citizens
+### 1. Citizens
 
 ✅ Browse all healthcare providers - see their cost of vaccinations, NABH Registration Numbers and current stock of vaccines
 
@@ -19,13 +19,13 @@ VacSeen targets all ends of the vaccine chain, from citizens to vaccine manufact
 
 ![App Screenshots](https://github.com/skhiearth/VacSeen/blob/main/UI%20Elements/Screenshots/Reserve%20and%20pay.png?raw=true)
 
-### Government/Admin
+### 2. Government/Admin
 
 ✅ Summary overview regarding percentage of population vaccinated
 
 ✅ Verify healthcare providers before they can vaccinate the population
 
-### Healthcare Providers
+### 3. Healthcare Providers
 
 ✅ Procure vaccines from multiple manufacturers at a fair price
 
@@ -33,7 +33,7 @@ VacSeen targets all ends of the vaccine chain, from citizens to vaccine manufact
 
 ✅ Log vaccination of people directly from the application, updating inventory and dose counts automatically
 
-### Vaccine Manufacturers
+### 4. Vaccine Manufacturers 
 
 ✅ Reach out to several healthcare providers - prevent bias
 
@@ -45,14 +45,16 @@ VacSeen targets all ends of the vaccine chain, from citizens to vaccine manufact
 
 ## Features:
 
-#### 🔒 Secure Transactions
-#### 🔎 Transparency in prices and inventory
-#### 🔑 Strong verification with Solidity Smart Contract design
-#### 💰 Promotes fair price practices
-#### 🌐 Works on two different networks - Celo and Ethereum
-#### 🧈 Seamless sign transaction with Portis
+##### 🔒 Secure Transactions
+##### 🔎 Transparency in prices and inventory
+##### 🔑 Strong verification with Solidity Smart Contract design
+##### 💰 Promotes fair price practices
+##### 🌐 Works on two different networks - Celo and Ethereum
+##### 🧈 Seamless sign transaction with Portis
 
-#### Future Work:
+![App Screenshots](https://github.com/skhiearth/VacSeen/blob/main/UI%20Elements/Screenshots/Verification.png?raw=true)
+
+### Future Work:
 
 🔜 Add a complete supply chain on the manufacuting side for raw materials
 
