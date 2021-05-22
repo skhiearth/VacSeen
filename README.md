@@ -1,11 +1,17 @@
 # VacSeen
 by The Misfits at TechnoHack
 
+Watch the Video Demo [here]()
+
 The Coronavirus pandemic has struck India hard. The crumbling healthcare system and vaccine shortage don’t make the situation any better. While vaccines are the only reliable weapon against this menacing disease, citizens have been struggling to get themselves vaccinated with crashing servers, shortage of doses and black market dealings. VacSeen is a blockchain based vaccination portal that targets all ends of the vaccination chain, from manufacturer to members of the public.
+
+![App Screenshots](https://github.com/skhiearth/VacSeen/blob/main/UI%20Elements/Screenshots/Cover.png?raw=true)
 
 VacSeen targets all ends of the vaccine chain, from citizens to vaccine manufacturers, catering to the needs and requirements of all. Features of the platform from user perspective can be described as:
 
 ### Citizens
+
+![App Screenshots](https://github.com/skhiearth/VacSeen/blob/main/UI%20Elements/Screenshots/Reserve%20and%20pay.png?raw=true)
 
 ### Government/Admin
 
@@ -14,6 +20,10 @@ VacSeen targets all ends of the vaccine chain, from citizens to vaccine manufact
 ### Vaccine Manufacturers
 
 ## Requirements
+
+![App Screenshots](https://github.com/skhiearth/VacSeen/blob/main/UI%20Elements/Screenshots/Textual.png?raw=true)
+
+![App Screenshots](https://github.com/skhiearth/VacSeen/blob/main/UI%20Elements/Screenshots/Verification.png?raw=true)
 
 #### Hardware
 
@@ -49,5 +59,7 @@ Note: If you deploy using a personal account, CELO tokens are required in your a
 * Wallet: [Portis](https://www.portis.io/)
 * Package Manager: [npm](https://www.npmjs.com/)
 * Some open source libraries: [Epic React Spinners](https://github.com/bondz/react-epic-spinners)
+
+![App Screenshots](https://github.com/skhiearth/VacSeen/blob/main/UI%20Elements/Screenshots/Tech%20Stack.png?raw=true)
 
 Made with ❤️ by The Misfits - [Simran](https://simmsss.github.io/) and [Utkarsh](https://skhiearth.github.io/)
