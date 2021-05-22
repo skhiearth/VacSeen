@@ -16,6 +16,19 @@ html, body, #app, #app>div {
     margin-right: 4px;
 }
 
+.summary {
+    text-align: left;
+}
+
+.summaryTitle {
+    color: black;
+    font-family: 'Raleway', sans-serif;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 22px;
+    font-weight: 600;
+}
+
 .navbarlinks {
     color: black;
     font-family: 'Raleway', sans-serif;

@@ -98,6 +98,12 @@ class Admin extends Component {
         const hospitalCount = await vacSeen.methods.hospitalCount().call()
         this.setState({ hospitalCount })
 
+        const citizenCount = await vacSeen.methods.citizenCount().call()
+        this.setState({ citizenCount })
+
+        const manufacturerCount = await vacSeen.methods.manufacturerCount().call()
+        this.setState({ manufacturerCount })
+
         for (var i = 0; i < hospitalCount; i++) {
           const hospital = await vacSeen.methods.HospitalsID(i).call()
           if(!hospital.isValidated){
@@ -109,6 +115,26 @@ class Admin extends Component {
               validatedHospitals: [...this.state.validatedHospitals, hospital]
             })
           }
+        }
+
+        for (var k = 0; k < citizenCount; k++) {
+          const citizenFromID = await vacSeen.methods.Citizens(i).call()
+          const citizen = await vacSeen.methods.HospitalsID(citizenFromID.publicAddress).call()
+          if(citizen.vaccinated){
+            this.setState({ vaccinatedCitizens: this.state.vaccinatedCitizens + 1 })
+          } else {
+            this.setState({ nonVaccinatedCitizens: this.state.nonVaccinatedCitizens + 1 })
+          }
+        }
+
+        for (var l = 0; l < manufacturerCount; l++) {
+          const manufacturer = await vacSeen.methods.ManufacturersID(l).call()
+          this.setState({ totalSupply: this.state.totalSupply + manufacturer.capacity })
+        }
+
+        for (const hospital in this.validateHospital) {
+          this.setState({ supply: this.state.supply + hospital.stock })
+          this.setState({ totalSupply: this.state.totalSupply + hospital.stock })
         }
 
         if(admin === accounts[0]){
@@ -143,8 +169,14 @@ class Admin extends Component {
       admin: null,
       validAdmin: false,
       hospitalCount: 0,
+      manufacturerCount: 0,
       invalidatedHospitals: [],
-      validatedHospitals: []
+      validatedHospitals: [],
+      citizenCount: 0,
+      vaccinatedCitizens: 0,
+      nonVaccinatedCitizens: 0,
+      supply: 0,
+      totalSupply: 0
     }
 
     this.setupCelo = this.setupCelo.bind(this)
@@ -254,6 +286,24 @@ class Admin extends Component {
                   </div>
                 }
               </div>
+
+              <div class="col-4">
+                <div>
+                    {
+                      this.state.validAdmin ?
+                      <div>
+                        <p className={styles.summaryTitle}>Overview</p>
+                        <p className={styles.summary}>Registered Citizens: {this.state.citizenCount.toString()}</p>
+                        <p className={styles.summary}>Fully Vacinated Citizens: {this.state.vaccinatedCitizens.toString()}</p>
+                        <p className={styles.summary}>Non-vaccinated Citizens: {this.state.nonVaccinatedCitizens.toString()}</p>
+                        <p className={styles.summary}>Total Circulating Supply of Vaccine: {this.state.supply.toString()} doses</p>
+                        <p className={styles.summary}>Max Supply of Vaccine (Circulation + Manufacturer Inventory): {this.state.totalSupply.toString()} doses</p>
+                      </div> :
+                      <div></div>
+                    }
+                  </div>
+              </div>
+
             </div>
 
             <div className={styles.networkSelector}>
