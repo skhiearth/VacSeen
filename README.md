@@ -11,19 +11,32 @@ VacSeen targets all ends of the vaccine chain, from citizens to vaccine manufact
 
 ### Citizens
 
+✅ Browse all healthcare providers - see their cost of vaccinations, NABH Registration Numbers and current stock of vaccines
+✅ Reserve appointment and pay a fair price directly to the hospital using CELO or ETH
+✅ Keep track of doses and book subsequent appointments
+
 ![App Screenshots](https://github.com/skhiearth/VacSeen/blob/main/UI%20Elements/Screenshots/Reserve%20and%20pay.png?raw=true)
 
 ### Government/Admin
 
+✅ Summary overview regarding percentage of population vaccinated
+✅ Verify healthcare providers before they can vaccinate the population
+
 ### Healthcare Providers
+
+✅ Procure vaccines from multiple manufacturers at a fair price
+✅ Collect payments in crypto - an asset class
+✅ Log vaccination of people directly from the application, updating inventory and dose counts automatically
 
 ### Vaccine Manufacturers
 
-## Requirements
+✅ Reach out to several healthcare providers - prevent bias
+✅ Keep track of inventory and add new batches
+✅ Automatically collect payment for vaccine delivery
 
 ![App Screenshots](https://github.com/skhiearth/VacSeen/blob/main/UI%20Elements/Screenshots/Textual.png?raw=true)
 
-![App Screenshots](https://github.com/skhiearth/VacSeen/blob/main/UI%20Elements/Screenshots/Verification.png?raw=true)
+## Requirements
 
 #### Hardware
 
