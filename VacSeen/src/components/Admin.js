@@ -129,7 +129,7 @@ class Admin extends Component {
 
         for (var l = 0; l < manufacturerCount; l++) {
           const manufacturer = await vacSeen.methods.ManufacturersID(l).call()
-          this.setState({ totalSupply: this.state.totalSupply + manufacturer.capacity })
+          this.setState({ totalSupply: this.state.supply + manufacturer.capacity })
         }
 
         for (const hospital in this.validateHospital) {
