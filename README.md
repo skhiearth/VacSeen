@@ -50,7 +50,7 @@ VacSeen targets all ends of the vaccine chain, from citizens to vaccine manufact
 ##### 🔑 Strong verification with Solidity Smart Contract design
 ##### 💰 Promotes fair price practices
 ##### 🌐 Works on two different networks - Celo and Ethereum
-##### 🧈 Seamless sign transaction with Portis
+##### 🧈 Seamlessly sign transaction with Portis
 
 ![App Screenshots](https://github.com/skhiearth/VacSeen/blob/main/UI%20Elements/Screenshots/Verification.png?raw=true)
 
