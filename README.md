@@ -60,7 +60,7 @@ VacSeen targets all ends of the vaccine chain, from citizens to vaccine manufact
 
 🔜 Citizens can book appointment for their family members
 
-🔜 Hospitals can keep stock of more than one vaccines
+🔜 Hospitals can keep stock of more than one type of vaccines
 
 🔜 Introduce support for single/triple dose COVID vaccines
 
