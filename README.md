@@ -43,27 +43,6 @@ VacSeen targets all ends of the vaccine chain, from citizens to vaccine manufact
 
 ![App Screenshots](https://github.com/skhiearth/VacSeen/blob/main/UI%20Elements/Screenshots/Textual.png?raw=true)
 
-## Features:
-
-##### 🔒 Secure Transactions
-##### 🔎 Transparency in prices and inventory
-##### 🔑 Strong verification with Solidity Smart Contract design
-##### 💰 Promotes fair price practices
-##### 🌐 Works on two different networks - Celo and Ethereum
-##### 🧈 Seamlessly sign transaction with Portis
-
-![App Screenshots](https://github.com/skhiearth/VacSeen/blob/main/UI%20Elements/Screenshots/Verification.png?raw=true)
-
-### Future Work:
-
-🔜 Add a complete supply chain on the manufacuting side for raw materials
-
-🔜 Citizens can book appointment for their family members
-
-🔜 Hospitals can keep stock of more than one type of vaccines
-
-🔜 Introduce support for single/triple dose COVID vaccines
-
 ## Requirements
 
 #### Hardware
